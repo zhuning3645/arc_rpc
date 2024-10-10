@@ -11,19 +11,22 @@ public class EasyConsumerExample {
 
     public static void main(String[] args) {
         /*//todo 需要获取UserService的实现类对象
-        UserService userService = null;
-        User user = new User();
-        user.setName("oy");
         //调用
         User newUser = userService.getUser(user);
-        if(newUser != null){
-            System.out.println(newUser.getName());
-        }else{
-            System.out.println("user == null");
-        }*/
+        */
         //静态代理
-        UserService userService = new UserServiceProxy();
+        //UserService userService = new UserServiceProxy();
         //动态代理
-//        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
+        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
+        User user = new User();
+        user.setName("oy");
+        // 调用
+        User newUser = userService.getUser(user);
+        if (newUser != null) {
+            System.out.println(newUser.getName());
+            System.out.println(newUser.getMessage());
+        } else {
+            System.out.println("user == null");
+        }
     }
 }

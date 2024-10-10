@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 
 /**
  * Http请求处理
+ * 动态代理
  */
 public class HttpServerHandler implements Handler<HttpServerRequest> {
 

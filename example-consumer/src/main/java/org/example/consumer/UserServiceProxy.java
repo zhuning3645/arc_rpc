@@ -45,6 +45,13 @@ public class UserServiceProxy implements UserService {
         }catch (IOException e){
             e.printStackTrace();
         }
+//        System.out.println("调用完成");
+        return null;
+    }
+
+    @Override
+    public User getMessage(User user) {
+
         return null;
     }
 }
