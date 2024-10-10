@@ -2,6 +2,7 @@ package org.example.consumer;
 
 import org.example.common.model.User;
 import org.example.common.service.UserService;
+import org.example.proxy.ServiceProxyFactory;
 
 /**
  * 简易服务消费者示例
@@ -9,7 +10,7 @@ import org.example.common.service.UserService;
 public class EasyConsumerExample {
 
     public static void main(String[] args) {
-        //todo 需要获取UserService的实现类对象
+        /*//todo 需要获取UserService的实现类对象
         UserService userService = null;
         User user = new User();
         user.setName("oy");
@@ -19,6 +20,10 @@ public class EasyConsumerExample {
             System.out.println(newUser.getName());
         }else{
             System.out.println("user == null");
-        }
+        }*/
+        //静态代理
+        UserService userService = new UserServiceProxy();
+        //动态代理
+//        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
     }
 }

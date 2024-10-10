@@ -10,13 +10,12 @@ import org.example.registry.LocalRegistry;
 import org.example.serializer.JdkSerializer;
 import org.example.serializer.Serializer;
 
-import javax.imageio.IIOException;
+
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Http
+ * Http请求处理
  */
 public class HttpServerHandler implements Handler<HttpServerRequest> {
 
