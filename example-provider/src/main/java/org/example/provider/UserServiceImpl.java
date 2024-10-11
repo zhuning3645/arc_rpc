@@ -13,4 +13,9 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User getMessage(User user) {
+        return null;
+    }
+
 }

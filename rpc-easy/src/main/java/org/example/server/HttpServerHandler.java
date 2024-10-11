@@ -33,6 +33,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
             byte[] bytes = body.getBytes();
             RpcRequest rpcRequest = null;
             try{
+                //将接受过来的请求反序列化出来
                 rpcRequest = serializer.deserialize(bytes, RpcRequest.class);
             }catch(Exception e){
                 e.printStackTrace();
