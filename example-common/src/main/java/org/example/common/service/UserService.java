@@ -4,6 +4,7 @@ import org.example.common.model.User;
 
 /**
  * 用户服务
+ * 调用的远程服务
  */
 public interface UserService {
 
@@ -15,4 +16,6 @@ public interface UserService {
     User getUser(User user);
 
     User getMessage(User user);
+
+    String addUser(User user);
 }

@@ -54,4 +54,9 @@ public class UserServiceProxy implements UserService {
 
         return null;
     }
+
+    @Override
+    public String addUser(User user) {
+        return null;
+    }
 }

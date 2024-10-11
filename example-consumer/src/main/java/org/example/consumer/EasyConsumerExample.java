@@ -6,14 +6,12 @@ import org.example.proxy.ServiceProxyFactory;
 
 /**
  * 简易服务消费者示例
+ *
+ * 调用的方法名字是getUser + addUser
  */
 public class EasyConsumerExample {
 
     public static void main(String[] args) {
-        /*//todo 需要获取UserService的实现类对象
-        //调用
-        User newUser = userService.getUser(user);
-        */
         //静态代理
         //UserService userService = new UserServiceProxy();
         //动态代理
@@ -21,10 +19,11 @@ public class EasyConsumerExample {
         User user = new User();
         user.setName("oy");
         // 调用
-        User newUser = userService.getUser(user);
+        User newUser = userService.getUser(user);//查看原始的名字
+        String newUser2 =userService.addUser(user);//调用远程方法对传入的user进行修改
         if (newUser != null) {
-            System.out.println(newUser.getName());
-            System.out.println(newUser.getMessage());
+            System.out.println("newUser：" + newUser.getName());
+            System.out.println("newUser2：" + newUser2);
         } else {
             System.out.println("user == null");
         }

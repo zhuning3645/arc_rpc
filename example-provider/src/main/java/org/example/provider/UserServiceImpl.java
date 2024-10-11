@@ -5,6 +5,7 @@ import org.example.common.service.UserService;
 
 /**
  * 用户服务实现类
+ * 具体远程方法的实现逻辑
  */
 public class UserServiceImpl implements UserService {
 
@@ -15,7 +16,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getMessage(User user) {
-        return null;
+        System.out.println("message is : " + user.getMessage());
+        return user;
+    }
+
+    @Override
+    public String addUser(User user) {
+        String part1 = "add用户名：";
+        System.out.println(part1 + user.getName());
+        return part1 + " " +  user.getName();
     }
 
 }
