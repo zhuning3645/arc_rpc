@@ -2,6 +2,9 @@ package org.example.provider;
 
 import org.example.RpcApplication;
 import org.example.common.service.UserService;
+import org.example.registry.LocalRegistry;
+import org.example.server.HttpServer;
+import org.example.server.VertxHttpServer;
 
 public class ProviderExample {
 

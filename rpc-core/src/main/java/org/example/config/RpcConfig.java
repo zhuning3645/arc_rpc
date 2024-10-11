@@ -1,6 +1,8 @@
 package org.example.config;
 
 import lombok.Data;
+import org.example.serializer.Serializer;
+import org.example.serializer.SerializerKeys;
 
 /**
  * PRC框架配置
@@ -31,4 +33,9 @@ public class RpcConfig {
      * 模拟调用
      */
     private boolean mock = false;
+
+    /**
+     * 序列化器
+     */
+    private String serializer = SerializerKeys.JDK;
 }

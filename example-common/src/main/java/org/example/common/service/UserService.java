@@ -17,5 +17,18 @@ public interface UserService {
 
     User getMessage(User user);
 
+    /**
+     * 给用户名加上前缀
+     * @param user
+     * @return
+     */
     String addUser(User user);
+
+    /**
+     * 获取数字
+     * @return
+     */
+    default short getNumber(){
+        return 1;
+    }
 }
