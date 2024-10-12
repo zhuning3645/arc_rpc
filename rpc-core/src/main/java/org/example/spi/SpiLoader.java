@@ -1,18 +1,22 @@
 package org.example.spi;
 
-import jdk.jpackage.internal.Log;
+import cn.hutool.core.io.resource.ResourceUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.example.serializer.Serializer;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static cn.hutool.core.util.ServiceLoaderUtil.load;
-
 /**
  * SPI加载器（支持键值对映射
  */
+@Slf4j
 public class SpiLoader {
 
     /**
@@ -50,7 +54,7 @@ public class SpiLoader {
      * 加载所有类型
      */
     public static void loadAll() {
-        Log.info("加载所有SPI");
+        log.info("加载所有SPI");
         for(Class<?> aClass : LOAD_CLASS_LIST) {
             load(aClass);
         }
@@ -84,6 +88,34 @@ public class SpiLoader {
                 throw new RuntimeException(errorMsg, e);
             }
         }
-        return (T)instanceCache.get(implClassName);
+        return (T) instanceCache.get(implClassName);
+    }
+
+    public static Map<String, Class<?>> load(Class<?> loadClass) {
+        log.info("加载类型为 {} 的SPI", loadClass.getName());
+        Map<String, Class<?>> keyClassMap = new HashMap<>();
+        for(String scanDir : SCAN_DISRS) {
+            List<URL> resources = ResourceUtil.getResources(scanDir + loadClass.getName());
+            //读取每个资源文件
+            for(URL resource : resources) {
+                try {
+                    InputStreamReader inputStreamReader = new InputStreamReader(resource.openStream());
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String line;
+                    while((line = bufferedReader.readLine()) != null){
+                        String[] strArray = line.split("=");
+                        if(strArray.length > 1){
+                            String key = strArray[0];
+                            String className = strArray[1];
+                            keyClassMap.put(key, Class.forName(className));
+                        }
+                    }
+                }catch (Exception e) {
+                    log.error("spi resource load error", e);
+                }
+            }
+        }
+        loaderMap.put(loadClass.getName(), keyClassMap);
+        return keyClassMap;
     }
 }

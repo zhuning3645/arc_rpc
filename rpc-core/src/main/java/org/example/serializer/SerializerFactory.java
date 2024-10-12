@@ -1,7 +1,5 @@
 package org.example.serializer;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +14,7 @@ public class SerializerFactory {
         put(SerializerKeys.JSON, new JSONSerializer());
         put(SerializerKeys.HESSIAN, new HessianSerializer());
     }};
+//    private static final Serializer DEFAULT_SERIALIZER = new JdkSerializer();
 
     /**
      * 默认序列化器
@@ -29,6 +28,7 @@ public class SerializerFactory {
      */
     public static Serializer getInstance(String key) {
         return KEY_SERIALIZER_MAP.getOrDefault(key, DEFAULT_SERIALIZER);
+//        return SpiLoader.getInstance(Serializer.class, key);
     }
 
 }
