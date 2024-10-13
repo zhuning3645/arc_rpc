@@ -1,2 +1,0 @@
-json=com.yupi.yurpc.serializer.JsonSerializer
-kryo=com.yupi.yurpc.serializer.KryoSerializer

@@ -2,7 +2,12 @@ package org.example.provider;
 
 import org.example.RpcApplication;
 import org.example.common.service.UserService;
+import org.example.config.RpcConfig;
+import org.example.model.ServiceMetaInfo;
 import org.example.registry.LocalRegistry;
+import org.example.registry.Registry;
+import org.example.registry.RegistryConfig;
+import org.example.registry.RegistryFactory;
 import org.example.server.HttpServer;
 import org.example.server.VertxHttpServer;
 
@@ -14,7 +19,22 @@ public class ProviderExample {
         RpcApplication.init();
 
         //注册服务
-        LocalRegistry.register(UserService.class.getName(), UserServiceImpl.class);
+        String servicename = UserService.class.getName();
+        LocalRegistry.register(servicename, UserServiceImpl.class);
+
+        //注册到注册中心
+        RpcConfig rpcConfig = RpcApplication.getRpcConfig();
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
+        serviceMetaInfo.setServiceName(servicename);
+        serviceMetaInfo.setServiceVersion(rpcConfig.getServerHost());
+        serviceMetaInfo.setServicePort(rpcConfig.getServerPort());
+        try{
+            registry.register(serviceMetaInfo);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
 
         //提供web服务
         HttpServer httpServer = new VertxHttpServer();
