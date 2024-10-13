@@ -1,7 +1,7 @@
 package org.example.config;
 
 import lombok.Data;
-import org.example.serializer.Serializer;
+import org.example.registry.RegistryConfig;
 import org.example.serializer.SerializerKeys;
 
 /**
@@ -38,4 +38,9 @@ public class RpcConfig {
      * 序列化器
      */
     private String serializer = SerializerKeys.JDK;
+
+    /**
+     * 注册中心配置
+     */
+    private RegistryConfig registryConfig = new RegistryConfig();
 }

@@ -3,6 +3,9 @@ package org.example;
 import lombok.extern.slf4j.Slf4j;
 import org.example.config.RpcConfig;
 import org.example.constant.RpcConstant;
+import org.example.registry.Registry;
+import org.example.registry.RegistryConfig;
+import org.example.registry.RegistryFactory;
 import org.example.utils.ConfigUtils;
 
 /**
@@ -23,6 +26,11 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig.toString());
+        //注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("rpc init, registry = {}", registryConfig);
     }
 
     /**
@@ -31,7 +39,7 @@ public class RpcApplication {
     public static void init() {
         RpcConfig newRpcConfig;
         try{
-            newRpcConfig = ConfigUtils.loadConfig(RpcConfig.class, RpcConstant.DEFAULT_CONFIG_PRFIX);
+            newRpcConfig = ConfigUtils.loadConfig(RpcConfig.class, RpcConstant.DEFAULT_CONFIG_PREFIX);
         }catch (Exception e){
             //配置加载失败，使用默认值
             newRpcConfig = new RpcConfig();
