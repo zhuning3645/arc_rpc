@@ -14,14 +14,14 @@ public class RegistryTest {
     final Registry registry = new EtcdRegistry();
 
     @Before
-    public void init(){
+    public void init() {
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setRegistry("http://localhost:2379");
         registry.init(registryConfig);
     }
 
     @Test
-    public void registry() throws Exception{
+    public void registry() throws Exception {
         ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
         serviceMetaInfo.setServiceName("myService_test");
         serviceMetaInfo.setServiceVersion("1.0.0");
@@ -54,12 +54,20 @@ public class RegistryTest {
     }
 
     @Test
-    public void serviceDiscovery(){
+    public void serviceDiscovery() {
         ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
         serviceMetaInfo.setServiceName("myService_test");
         serviceMetaInfo.setServiceVersion("1.0.0");
         String serviceKey = serviceMetaInfo.getServiceKey();
         List<ServiceMetaInfo> serviceMetaInfoList = registry.serviceDiscovery(serviceKey);
         System.out.println(serviceMetaInfoList);
+    }
+
+    @Test
+    public void hearBeat() throws Exception {
+        //init 方法中已经执行心跳检测了
+        registry();
+        //阻塞一分钟
+        Thread.sleep(60 * 1000L);
     }
 }
