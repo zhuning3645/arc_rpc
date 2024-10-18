@@ -4,6 +4,7 @@ import org.example.model.ServiceMetaInfo;
 
 import java.util.List;
 
+//todo zookeeper注册中心还没有实现
 public class ZooKeeperRegistry implements Registry{
 
     @Override
@@ -33,6 +34,11 @@ public class ZooKeeperRegistry implements Registry{
 
     @Override
     public void heartBeat() {
+
+    }
+
+    @Override
+    public void watch(String serviceNodeKey) {
 
     }
 }
