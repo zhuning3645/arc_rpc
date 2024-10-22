@@ -1,8 +1,6 @@
 package org.example.proxy;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import org.example.RpcApplication;
 import org.example.config.RpcConfig;
 import org.example.constant.RpcConstant;
@@ -13,8 +11,8 @@ import org.example.registry.Registry;
 import org.example.registry.RegistryFactory;
 import org.example.serializer.Serializer;
 import org.example.serializer.SerializerFactory;
+import org.example.server.tcp.VertxTcpClient;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -26,6 +24,7 @@ public class ServiceProxy implements InvocationHandler {
 
     /**
      * 调用代理
+     *
      * @return
      * @throws Throwable
      */
@@ -43,7 +42,7 @@ public class ServiceProxy implements InvocationHandler {
                 .args(args)
                 .build();
 
-        try{
+        try {
             //序列化
             byte[] bodyBytes = serializer.serialize(rpcRequest);
             //从注册中心获取服务提供者请求地址
@@ -53,26 +52,16 @@ public class ServiceProxy implements InvocationHandler {
             serviceMetaInfo.setServiceName(serviceName);
             serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
             List<ServiceMetaInfo> serviceMetaInfoList = registry.serviceDiscovery(serviceMetaInfo.getServiceKey());
-            if(CollUtil.isEmpty(serviceMetaInfoList)){
+            if (CollUtil.isEmpty(serviceMetaInfoList)) {
                 throw new RuntimeException("暂无服务地址");
             }
             //暂时先取第一个
             ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
-
-
-            //发送请求
-            //todo 这里地址被硬编码了，需要注册中心和服务发现机制来解决
-            try(HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
-                    .body(bodyBytes)
-                    .execute()){
-                byte[] result = httpResponse.bodyBytes();
-                //反序列化
-                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                return rpcResponse.getData();
-            }
-        }catch(IOException e){
-            e.printStackTrace();
+            //发送TCP请求
+            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+            return rpcResponse.getData();
+        } catch (Exception e) {
+            throw new RuntimeException("调用失败");
         }
-        return null;
     }
 }

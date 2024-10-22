@@ -1,4 +1,4 @@
-package com.oy.oyrpc.registry;
+package org.example.provider;
 
 import org.example.model.ServiceMetaInfo;
 import org.example.registry.EtcdRegistry;

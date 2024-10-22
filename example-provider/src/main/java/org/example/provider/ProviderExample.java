@@ -8,8 +8,7 @@ import org.example.registry.LocalRegistry;
 import org.example.registry.Registry;
 import org.example.registry.RegistryConfig;
 import org.example.registry.RegistryFactory;
-import org.example.server.HttpServer;
-import org.example.server.VertxHttpServer;
+import org.example.server.tcp.VertxTcpServer;
 
 public class ProviderExample {
 
@@ -36,8 +35,10 @@ public class ProviderExample {
             throw new RuntimeException(e);
         }
 
-        //提供web服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        //提供web服务 改成tcp启动器
+        /*HttpServer httpServer = new VertxHttpServer();
+        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());*/
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8080);
     }
 }
