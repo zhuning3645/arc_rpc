@@ -3,7 +3,7 @@ package org.example.loadbalancer;
 /**
  * 负载均衡器键名常量
  */
-public class LoadBalancerKeys {
+public interface LoadBalancerKeys {
 
     /**
      * 轮询

@@ -61,7 +61,9 @@ public class ServiceProxy implements InvocationHandler {
             }
             //暂时先取第一个
             //ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+
             //负载均衡
+            //将固定调用第一个服务节点，改为调用负载均衡器获取一个服务节点
             LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
             //将调用方法名（请求路径）作为负载均衡参数
             Map<String, Object>requestParams = new HashMap<>();
