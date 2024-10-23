@@ -1,10 +1,9 @@
 package org.example.consumer;
 
+import org.example.bootstrap.ConsumerBootstrap;
 import org.example.common.model.User;
 import org.example.common.service.UserService;
-import org.example.config.RpcConfig;
 import org.example.proxy.ServiceProxyFactory;
-import org.example.utils.ConfigUtils;
 
 /**
  * 简易消费者示例
@@ -14,6 +13,8 @@ public class ConsumerExample {
     public static void main(String[] args) {
         /*RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
         System.out.println(rpc);*/
+        //服务提供者初始化
+        ConsumerBootstrap.init();
 
         //获取代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
